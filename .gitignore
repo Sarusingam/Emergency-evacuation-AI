@@ -1,4 +1,8 @@
-# Python
+# ============================================================
+# Emergency Evacuation AI — Git Ignore Rules
+# ============================================================
+
+# Python byte-compiled / optimized files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -7,36 +11,47 @@ dist/
 build/
 .eggs/
 *.egg
+
+# Test & Linting Caches
 .pytest_cache/
 .mypy_cache/
+.coverage
+coverage/
+htmlcov/
 
-# Virtual environments
+# Virtual Environments
 venv/
 .venv/
 env/
 .env
 
-# IDE
+# Local SQLite & Dynamic DB files
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Machine Learning Runs & Checkpoints (weights excluded, gitkeep preserved)
+runs/
+models/weights/*.pt
+models/weights/*.pth
+!models/weights/.gitkeep
+
+# Node / Dashboard
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.env
+
+# IDE / Editor Settings
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# Data & Models
-data/
-models/weights/*.pt
-models/weights/*.pth
-!models/weights/.gitkeep
-
-# Node/Dashboard
-dashboard/node_modules/
-dashboard/dist/
-dashboard/.env
-
-# OS
+# Operating System Files
 .DS_Store
 Thumbs.db
 
-# Docker
+# Log files
 *.log
