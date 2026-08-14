@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data & Models
+data/
+models/weights/*.pt
+models/weights/*.pth
+!models/weights/.gitkeep
+
+# Node/Dashboard
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log

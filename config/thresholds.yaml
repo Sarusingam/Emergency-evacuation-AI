@@ -1,0 +1,158 @@
+# ============================================================
+# Emergency Evacuation AI - Thresholds & Parameters
+# ============================================================
+# Risk thresholds, density limits, capacity constraints,
+# and decision-making parameters for agents.
+# ============================================================
+
+# -----------------------------------------------------------
+# Crowd Density Thresholds
+# -----------------------------------------------------------
+# Density is measured in people per square meter.
+# These thresholds determine density classification.
+# -----------------------------------------------------------
+crowd_density:
+  low: 0.5             # < 0.5 people/m² = LOW density
+  moderate: 1.0        # 0.5 - 1.0 = MODERATE density
+  high: 2.0            # 1.0 - 2.0 = HIGH density
+  critical: 3.0        # > 3.0 = CRITICAL density (dangerous)
+
+  # Density at which movement becomes severely impaired
+  movement_impaired: 4.0
+
+  # Maximum safe density
+  max_safe: 5.0
+
+# -----------------------------------------------------------
+# Risk Level Thresholds
+# -----------------------------------------------------------
+# Risk score is 0.0 - 1.0. These map to categorical levels.
+# -----------------------------------------------------------
+risk_levels:
+  low: 0.25            # 0.0 - 0.25 = LOW risk
+  medium: 0.50         # 0.25 - 0.50 = MEDIUM risk
+  high: 0.75           # 0.50 - 0.75 = HIGH risk
+  critical: 1.0        # 0.75 - 1.0 = CRITICAL risk
+
+  # Risk weights for computing zone risk score
+  weights:
+    crowd_density: 0.30
+    emergency_proximity: 0.25
+    road_congestion: 0.20
+    blocked_exits: 0.15
+    structural_risk: 0.10
+
+# -----------------------------------------------------------
+# Congestion Thresholds
+# -----------------------------------------------------------
+# Road congestion is 0.0 (free flow) to 1.0 (gridlock).
+# -----------------------------------------------------------
+congestion:
+  free_flow: 0.2       # < 0.2 = free flowing
+  moderate: 0.4        # 0.2 - 0.4 = moderate traffic
+  heavy: 0.7           # 0.4 - 0.7 = heavy traffic
+  gridlock: 0.9        # > 0.9 = near gridlock
+
+  # Congestion level at which road should be avoided
+  avoid_threshold: 0.8
+
+  # Congestion increase per simulation step from crowd flow
+  increase_rate: 0.02
+
+  # Natural congestion decay per step (when crowd clears)
+  decay_rate: 0.01
+
+# -----------------------------------------------------------
+# Exit Capacity
+# -----------------------------------------------------------
+exit_capacity:
+  # Safety factor: only use this fraction of max capacity
+  safety_factor: 0.85
+
+  # Minimum flow rate (people/minute) before exit is "slow"
+  min_flow_rate: 50
+
+  # If an exit exceeds this usage ratio, redistribute
+  overload_threshold: 0.90
+
+# -----------------------------------------------------------
+# Road Capacity
+# -----------------------------------------------------------
+road_capacity:
+  # Safety factor for road usage
+  safety_factor: 0.80
+
+  # Road is considered "full" at this usage ratio
+  full_threshold: 0.90
+
+# -----------------------------------------------------------
+# Replanning Triggers
+# -----------------------------------------------------------
+# Conditions that trigger the coordinator to replan routes.
+# -----------------------------------------------------------
+replanning:
+  # Trigger if any road becomes blocked
+  on_road_blocked: true
+
+  # Trigger if crowd density exceeds this percentile change
+  density_change_threshold: 0.30    # 30% change
+
+  # Trigger if congestion exceeds this level on any active route
+  congestion_trigger: 0.80
+
+  # Trigger if exit capacity usage exceeds this
+  exit_overload_trigger: 0.90
+
+  # Minimum time between replanning cycles (seconds)
+  min_replan_interval: 10.0
+
+  # Maximum replanning cycles
+  max_replan_cycles: 10
+
+# -----------------------------------------------------------
+# Evacuation Parameters
+# -----------------------------------------------------------
+evacuation:
+  # Walking speed (meters per second) for crowd
+  walking_speed: 1.2
+
+  # Running speed (meters per second) for emergency
+  running_speed: 3.0
+
+  # Speed reduction factor in high-density areas
+  density_speed_factor: 0.5
+
+  # Time to start evacuation after alert (seconds)
+  response_delay: 30
+
+  # Maximum acceptable evacuation time (minutes)
+  max_evacuation_time: 60
+
+# -----------------------------------------------------------
+# Vehicle Parameters
+# -----------------------------------------------------------
+vehicles:
+  # Average vehicle speed in emergency (m/s)
+  emergency_speed: 8.0
+
+  # Time to load passengers (seconds per person)
+  loading_time_per_person: 3.0
+
+  # Minimum people to justify dispatching a bus
+  min_dispatch_crowd: 20
+
+# -----------------------------------------------------------
+# Agent Decision Parameters
+# -----------------------------------------------------------
+agent_decisions:
+  # Confidence threshold for crowd count
+  crowd_count_confidence: 0.7
+
+  # Minimum risk score to flag zone as concerning
+  risk_alert_threshold: 0.50
+
+  # Number of alternative routes to propose
+  alternative_routes: 2
+
+  # How stale data can be before agent requests refresh (seconds)
+  data_staleness_threshold: 30.0

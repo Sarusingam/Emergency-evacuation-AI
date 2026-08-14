@@ -1,0 +1,155 @@
+# ============================================================
+# Emergency Evacuation AI - Application Settings
+# ============================================================
+# This file contains application-level configuration.
+# Environment variables in .env override these settings.
+# ============================================================
+
+# -----------------------------------------------------------
+# Server Configuration
+# -----------------------------------------------------------
+server:
+  host: "0.0.0.0"
+  port: 8000
+  debug: true
+  cors_origins:
+    - "http://localhost:5173"
+    - "http://localhost:3000"
+
+# -----------------------------------------------------------
+# Application Mode
+# -----------------------------------------------------------
+# Options: demo, development, production
+app:
+  mode: "demo"
+  log_level: "INFO"
+  log_file: "logs/evacuation.log"
+
+# -----------------------------------------------------------
+# Agent Configuration
+# -----------------------------------------------------------
+agents:
+  # How often agents re-analyze (seconds) during monitoring
+  analysis_interval: 5.0
+
+  # Maximum number of replanning cycles before stopping
+  max_replan_cycles: 10
+
+  # LLM settings for coordinator agent
+  llm:
+    provider: "openai"         # openai, google, anthropic, ollama
+    model: "gpt-4o-mini"
+    temperature: 0.2
+    max_tokens: 1024
+    # If no API key is set, falls back to rule-based coordinator
+    use_fallback_if_no_key: true
+
+  # Individual agent toggle (for debugging)
+  enabled:
+    crowd_agent: true
+    risk_agent: true
+    traffic_agent: true
+    transport_agent: true
+    route_agent: true
+    coordinator_agent: true
+
+# -----------------------------------------------------------
+# Computer Vision Configuration
+# -----------------------------------------------------------
+computer_vision:
+  # YOLO model variant: yolov8n, yolov8s, yolov8m, etc.
+  yolo_model: "yolov8n"
+
+  # Detection confidence threshold
+  confidence_threshold: 0.3
+
+  # Person class ID in COCO dataset
+  person_class_id: 0
+
+  # Frame processing settings
+  frame_skip: 2           # Process every Nth frame
+  max_resolution: 1280    # Max width for processing
+
+  # Demo mode: generate synthetic detections
+  demo_mode: true
+
+# -----------------------------------------------------------
+# Routing Configuration
+# -----------------------------------------------------------
+routing:
+  # Use OSRM for routing (requires OSRM server)
+  use_osrm: false
+  osrm_url: "http://localhost:5000"
+
+  # Cost function weights (must sum to 1.0)
+  cost_weights:
+    distance: 0.25
+    travel_time: 0.30
+    congestion: 0.25
+    risk: 0.20
+
+  # Blocked road cost (effectively infinite)
+  blocked_road_cost: 999999.0
+
+  # Maximum routes to compute per zone
+  max_routes_per_zone: 3
+
+# -----------------------------------------------------------
+# Optimization Configuration
+# -----------------------------------------------------------
+optimization:
+  # Method: "linprog" (scipy LP) or "greedy"
+  method: "linprog"
+
+  # Maximum iterations for optimizer
+  max_iterations: 1000
+
+  # Tolerance for convergence
+  tolerance: 0.001
+
+# -----------------------------------------------------------
+# Simulation Configuration
+# -----------------------------------------------------------
+simulation:
+  # Use SUMO for traffic simulation
+  use_sumo: false
+
+  # Simulation time step (seconds)
+  time_step: 1.0
+
+  # Maximum simulation steps
+  max_steps: 500
+
+  # Crowd movement speed (meters per second)
+  crowd_speed: 1.2
+
+  # Vehicle speed (meters per second)
+  vehicle_speed: 8.0
+
+  # Evacuation completion threshold (percentage)
+  completion_threshold: 0.95
+
+# -----------------------------------------------------------
+# Database Configuration
+# -----------------------------------------------------------
+database:
+  # Default: SQLite (no setup needed)
+  # For PostgreSQL: postgresql+psycopg://user:pass@host:5432/dbname
+  url: "sqlite:///./data/evacuation.db"
+
+  # Echo SQL statements (for debugging)
+  echo: false
+
+  # Create tables on startup
+  create_tables: true
+
+# -----------------------------------------------------------
+# Communication Configuration
+# -----------------------------------------------------------
+communication:
+  # Use Redis for pub/sub (requires Redis server)
+  use_redis: false
+  redis_url: "redis://localhost:6379/0"
+
+  # Channel prefix for Redis pub/sub
+  channel_prefix: "evacuation"

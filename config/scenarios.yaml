@@ -1,0 +1,349 @@
+# ============================================================
+# Emergency Evacuation AI - Hyderabad Demonstration Scenario
+# ============================================================
+# Real Hyderabad Geography + Simulated Emergency Conditions
+# ============================================================
+
+default_demo:
+  name: "Hyderabad Emergency Evacuation Scenario"
+  description: "Simulated emergency evacuation across six operational zones in Hyderabad"
+
+  # Map center: Hyderabad City Center (latitude, longitude)
+  map_center:
+    lat: 17.4100
+    lon: 78.4700
+
+  # -----------------------------------------------------------
+  # Operational Evacuation Zones (Hyderabad)
+  # -----------------------------------------------------------
+  zones:
+    - id: "zone_z1"
+      name: "Z1 - Miyapur"
+      center:
+        lat: 17.4960
+        lon: 78.3540
+      radius: 350
+      initial_crowd: 1500
+      area: 60000
+
+    - id: "zone_z2"
+      name: "Z2 - Raidurg"
+      center:
+        lat: 17.4430
+        lon: 78.3770
+      radius: 300
+      initial_crowd: 1800
+      area: 75000
+
+    - id: "zone_z3"
+      name: "Z3 - Nagole"
+      center:
+        lat: 17.3690
+        lon: 78.5620
+      radius: 250
+      initial_crowd: 900
+      area: 45000
+
+    - id: "zone_z4"
+      name: "Z4 - LB Nagar"
+      center:
+        lat: 17.3500
+        lon: 78.5520
+      radius: 300
+      initial_crowd: 1400
+      area: 55000
+
+    - id: "zone_z5"
+      name: "Z5 - MGBS"
+      center:
+        lat: 17.3780
+        lon: 78.4800
+      radius: 400
+      initial_crowd: 2200
+      area: 95000
+
+    - id: "zone_z6"
+      name: "Z6 - JBS"
+      center:
+        lat: 17.4470
+        lon: 78.4980
+      radius: 320
+      initial_crowd: 1200
+      area: 65000
+
+  # -----------------------------------------------------------
+  # Evacuation Exits / Peripheral Safe Destinations
+  # -----------------------------------------------------------
+  exits:
+    - id: "exit_north"
+      name: "North Evacuation Point (Medchal / ORR)"
+      location:
+        lat: 17.6300
+        lon: 78.4800
+      capacity: 3000
+      flow_rate: 250
+
+    - id: "exit_east"
+      name: "East Evacuation Point (Ghatkesar / NH65)"
+      location:
+        lat: 17.4400
+        lon: 78.6800
+      capacity: 2500
+      flow_rate: 220
+
+    - id: "exit_south"
+      name: "South Evacuation Point (Shamshabad / ORR)"
+      location:
+        lat: 17.2400
+        lon: 78.4300
+      capacity: 3000
+      flow_rate: 260
+
+    - id: "exit_west"
+      name: "West Evacuation Point (Patancheru / NH65)"
+      location:
+        lat: 17.5300
+        lon: 78.2600
+      capacity: 2500
+      flow_rate: 220
+
+  # -----------------------------------------------------------
+  # Hyderabad Road Network
+  # -----------------------------------------------------------
+  roads:
+    - id: "road_r1"
+      name: "R1 - Miyapur to Raidurg (Hitec City Rd)"
+      from_node: "zone_z1"
+      to_node: "zone_z2"
+      length: 7500
+      travel_time: 12.0
+      capacity: 1500
+      initial_congestion: 0.3
+      risk: 0.2
+      blocked: false
+
+    - id: "road_r2"
+      name: "R2 - Miyapur to JBS (Kukatpally / Balanagar)"
+      from_node: "zone_z1"
+      to_node: "zone_z6"
+      length: 12000
+      travel_time: 18.0
+      capacity: 1800
+      initial_congestion: 0.25
+      risk: 0.1
+      blocked: false
+
+    - id: "road_r3"
+      name: "R3 - Raidurg to MGBS (Madhapur / Lakdikapul)"
+      from_node: "zone_z2"
+      to_node: "zone_z5"
+      length: 14000
+      travel_time: 20.0
+      capacity: 2000
+      initial_congestion: 0.4
+      risk: 0.3
+      blocked: false
+
+    - id: "road_r4"
+      name: "R4 - JBS to MGBS (Tank Bund / Abids)"
+      from_node: "zone_z6"
+      to_node: "zone_z5"
+      length: 9000
+      travel_time: 15.0
+      capacity: 1600
+      initial_congestion: 0.45
+      risk: 0.35
+      blocked: false
+
+    - id: "road_r5"
+      name: "R5 - MGBS to LB Nagar (Malakpet / Dilsukhnagar)"
+      from_node: "zone_z5"
+      to_node: "zone_z4"
+      length: 8500
+      travel_time: 14.0
+      capacity: 1800
+      initial_congestion: 0.3
+      risk: 0.2
+      blocked: false
+
+    - id: "road_r6"
+      name: "R6 - Nagole to LB Nagar (Inner Ring Road)"
+      from_node: "zone_z3"
+      to_node: "zone_z4"
+      length: 3500
+      travel_time: 6.0
+      capacity: 1200
+      initial_congestion: 0.2
+      risk: 0.1
+      blocked: false
+
+    - id: "road_r7"
+      name: "R7 - JBS to Nagole (Tarnaka / Uppal)"
+      from_node: "zone_z6"
+      to_node: "zone_z3"
+      length: 11000
+      travel_time: 16.0
+      capacity: 1500
+      initial_congestion: 0.25
+      risk: 0.15
+      blocked: false
+
+    - id: "road_r8"
+      name: "R8 - Miyapur to West Evacuation Point"
+      from_node: "zone_z1"
+      to_node: "exit_west"
+      length: 8000
+      travel_time: 10.0
+      capacity: 2500
+      initial_congestion: 0.15
+      risk: 0.1
+      blocked: false
+
+    - id: "road_r9"
+      name: "R9 - JBS to North Evacuation Point"
+      from_node: "zone_z6"
+      to_node: "exit_north"
+      length: 18000
+      travel_time: 22.0
+      capacity: 3000
+      initial_congestion: 0.2
+      risk: 0.1
+      blocked: false
+
+    - id: "road_r10"
+      name: "R10 - Nagole to East Evacuation Point"
+      from_node: "zone_z3"
+      to_node: "exit_east"
+      length: 14000
+      travel_time: 18.0
+      capacity: 2500
+      initial_congestion: 0.2
+      risk: 0.15
+      blocked: false
+
+    - id: "road_r11"
+      name: "R11 - LB Nagar to South Evacuation Point"
+      from_node: "zone_z4"
+      to_node: "exit_south"
+      length: 19000
+      travel_time: 24.0
+      capacity: 3000
+      initial_congestion: 0.25
+      risk: 0.2
+      blocked: false
+
+    - id: "road_r12"
+      name: "R12 - MGBS to South Evacuation Point (Chandrayangutta)"
+      from_node: "zone_z5"
+      to_node: "exit_south"
+      length: 18000
+      travel_time: 22.0
+      capacity: 2500
+      initial_congestion: 0.35
+      risk: 0.25
+      blocked: false
+
+  # -----------------------------------------------------------
+  # Emergency Vehicles
+  # -----------------------------------------------------------
+  vehicles:
+    - id: "bus_hyderabad_1"
+      type: "TSRTC Express Bus"
+      capacity: 60
+      location:
+        lat: 17.3780
+        lon: 78.4800
+      assigned_zone: null
+      status: "available"
+
+    - id: "bus_hyderabad_2"
+      type: "TSRTC Volvo Bus"
+      capacity: 55
+      location:
+        lat: 17.4470
+        lon: 78.4980
+      assigned_zone: null
+      status: "available"
+
+    - id: "bus_hyderabad_3"
+      type: "Evacuation Shuttle"
+      capacity: 50
+      location:
+        lat: 17.4960
+        lon: 78.3540
+      assigned_zone: null
+      status: "available"
+
+    - id: "ambulance_hyd_1"
+      type: "108 Emergency Ambulance"
+      capacity: 6
+      location:
+        lat: 17.3780
+        lon: 78.4800
+      assigned_zone: null
+      status: "available"
+
+    - id: "ambulance_hyd_2"
+      type: "108 Disaster Response Van"
+      capacity: 10
+      location:
+        lat: 17.4430
+        lon: 78.3770
+      assigned_zone: null
+      status: "available"
+
+    - id: "van_hyd_1"
+      type: "Disaster Quick Response Vehicle"
+      capacity: 15
+      location:
+        lat: 17.3500
+        lon: 78.5520
+      assigned_zone: null
+      status: "available"
+
+  # -----------------------------------------------------------
+  # Demo Event Sequence (Hyderabad Evacuation)
+  # -----------------------------------------------------------
+  events:
+    - step: 0
+      type: "emergency_start"
+      description: "Industrial hazmat alert near MGBS (Z5)"
+      data:
+        emergency_type: "chemical_spill"
+        severity: "high"
+        affected_zone: "zone_z5"
+
+    - step: 5
+      type: "road_blocked"
+      description: "Road R4 (JBS to MGBS) blocked due to structural hazard"
+      data:
+        road_id: "road_r4"
+        reason: "structural_hazard"
+
+    - step: 10
+      type: "congestion_increase"
+      description: "Road R3 (Raidurg to MGBS) heavy traffic congestion"
+      data:
+        road_id: "road_r3"
+        new_congestion: 0.85
+
+    - step: 15
+      type: "vehicle_dispatch"
+      description: "TSRTC express buses dispatched to MGBS (Z5)"
+      data:
+        vehicle_ids: ["bus_hyderabad_1", "bus_hyderabad_2"]
+        target_zone: "zone_z5"
+
+    - step: 20
+      type: "crowd_surge"
+      description: "Crowd surge detected at Miyapur (Z1)"
+      data:
+        zone_id: "zone_z1"
+        new_crowd_count: 2200
+
+    - step: 30
+      type: "road_cleared"
+      description: "Road R4 partially cleared for emergency transit"
+      data:
+        road_id: "road_r4"
+        new_congestion: 0.5
